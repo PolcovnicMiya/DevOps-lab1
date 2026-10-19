@@ -1,0 +1,20 @@
+services:
+  ubuntu:
+    build:
+      context: ..
+      dockerfile: lab/Dockerfile
+    image: sgibnev-alexandr-ubuntu-lab
+    container_name: sgibnev-alexandr-ubuntu
+    hostname: ubuntu-devops
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - student-home:/home/student
+      - ..:/seed:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    tty: true
+volumes:
+  student-home:
