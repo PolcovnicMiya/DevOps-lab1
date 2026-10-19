@@ -1,0 +1,12 @@
+.git
+.venv
+**/__pycache__
+*.log
+logs
+backup
+.env
+lab
+docs
+tests
+private.txt
+public.txt
