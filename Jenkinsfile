@@ -17,29 +17,25 @@ pipeline {
         
         stage('Build') {
             steps {
-                // Компиляция Spring Boot приложения
-                sh 'chmod +x ./gradlew'
-                sh './gradlew clean classes'
+                sh '''
+                    python3 -m venv .venv
+                    .venv/bin/python -m pip install -r requirements-dev.txt
+                    .venv/bin/python -m compileall -q app
+                '''
             }
         }
-        
         stage('Test') {
             steps {
-                // Запуск тестов. При падении pipeline остановится автоматически
-                sh './gradlew test'
+                sh '''
+                    .venv/bin/python -m unittest discover -s tests -v
+                    bash -n scripts/Sgibnev_Alexandr_system.sh
+                    test -f Sgibnev_Alexandr_info.txt
+                    docker compose config --quiet
+                '''
             }
         }
-        
-        stage('Docker Build') {
-            steps {
-                // Сборка персонализированного образа
-                sh "docker build -t ${IMAGE_NAME} ."
-            }
-        }
-        
         stage('Verify') {
             steps {
-                // Проверка существования образа локально
                 sh "docker image inspect ${IMAGE_NAME} > /dev/null"
                 echo "Verification passed: Docker image ${IMAGE_NAME} successfully created."
             }
