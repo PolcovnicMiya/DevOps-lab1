@@ -2,9 +2,8 @@ pipeline {
     agent any 
     
     environment {
-        // Персонализация данных студента
         STUDENT_NAME = 'Alexandr Sgibnev'
-        IMAGE_NAME = 'alexandr-sgibnev-student-api:v1.0-alexandr-sgibnev'
+        IMAGE_NAME = 'sgibnev-alexandr-devops'    
     }
     
     stages {
